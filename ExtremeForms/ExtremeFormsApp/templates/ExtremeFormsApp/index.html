@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/general.css' %}">
+</head>
+<body>
+    {% include 'ExtremeFormsApp/links.html' %}
+    <h1>ExtremeForms</h1>
+    <p>{% now "Y-m-d H:i:s" %}</p>
+    <div >
+        <img class="logo" src="{% static 'img/ExtremeFormsApp/ExtremeFormsLogo.png' %}" alt="ExtremeForms Logo">
+    </div>
+    <div>
+        <button class="button" onclick="window.location.href='/new_form'">New form</button>
+        <button class="button" onclick="window.location.href='/form_result'">Form Result</button>
+    </div>
+    <li>
+        <a href="{% url 'sec-home' %}">
+            Página inicial de controle de acesso
+        </a>
+    </li>
+</body>
+</html>
