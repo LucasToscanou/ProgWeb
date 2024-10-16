@@ -1,0 +1,17 @@
+{% load custom_filters %}
+
+<div class="question multiple-choice">
+    <label>Questão de múltipla escolha:</label>
+    <input type="text" placeholder="Enter question" value="{{ question_text }}" required>
+    <div class="options">
+        {% for option in options %}
+            <div class="option-item">
+                <span>{{ forloop.counter|to_alpha }}</span>. 
+                <input type="text" placeholder="Option {{ forloop.counter }}" value="{{ option }}" required>
+                <button class="remove-option">Remover</button>
+            </div>
+        {% endfor %}
+    </div>
+    <button class="add-option">Adicionar Opção</button>
+    <button class="remove-question">Remover Questão</button>
+</div>

@@ -1,0 +1,35 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Form</title>
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/new_form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/general.css' %}">
+</head>
+
+<body>
+    <div class="content">
+        {% include 'ExtremeFormsApp/links.html' %}
+        <h1>New Form</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {% for form, question_type in forms %}
+            <div>
+                <h2>Questão {{ forloop.counter0 }}</h2>
+                {{ form.as_p }}
+            </div>
+            {% endfor %}
+
+            <button type="submit" name="action" value="save" class="toolbar_btn">Salvar Respostas</button>
+        </form>
+
+    </div>
+</body>
+
+</html>

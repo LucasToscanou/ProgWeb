@@ -1,4 +1,31 @@
-body {
-    background-color: #17ec45;
-    font-family: 'Roboto', sans-serif;
+.toolbar {
+    margin: 20px 0;
+}
+
+.toolbar_btn {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    color: #333333;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+    padding: 10px 20px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.toolbar_btn:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
+}
+
+#form-container {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+#questions {
+    margin-top: 10px;
 }

@@ -1,6 +1,59 @@
-/* body {
-} */
+html, body {
+    margin: 0; /* Reset default margin */
+    padding: 0; /* Reset default padding */
+    height: 100%; /* Ensure the body takes up the full height */
+}
 
-dev_nav-link {
+body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url('../../img/ExtremeFormsApp/triangle-mosaic.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure the content is centered vertically */
+}
+
+.content {
+    background-color: #fff;
+    padding: 30px;
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+    margin: 0; /* Reset margin */
+}
+
+.dev_navbar {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex; 
+    align-items: center; 
+    border-radius: 5px; 
+}
+
+.dev_nav-link {
     margin-right: 20px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 16px; 
+    transition: color 0.3s, transform 0.2s;
+}
+
+.dev_nav-link:hover {
+    color: #9b1414;
+    transform: scale(1.05); 
+}
+
+.dev_nav-link:active {
+    color: #9b1414; 
+    transform: scale(0.95); 
+}
+
+.dev_nav-link:last-child {
+    margin-right: 0;
 }

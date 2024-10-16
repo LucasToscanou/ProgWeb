@@ -4,25 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'img/ExtremeFormsApp/favicon.ico' %}" type="image/x-icon">
     <title>Index</title>
     <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/general.css' %}">
 </head>
 <body>
-    {% include 'ExtremeFormsApp/links.html' %}
-    <h1>ExtremeForms</h1>
-    <p>{% now "Y-m-d H:i:s" %}</p>
-    <div >
-        <img class="logo" src="{% static 'img/ExtremeFormsApp/ExtremeFormsLogo.png' %}" alt="ExtremeForms Logo">
+    <div class="content">
+        {% include 'ExtremeFormsApp/links.html' %}
+        <h1>ExtremeForms</h1>
+        <p class="datetime">{% now "Y-m-d H:i:s" %}</p>
+        <div class="logo-container">
+            <img class="logo" src="{% static 'img/ExtremeFormsApp/ExtremeFormsLogo.png' %}" alt="ExtremeForms Logo">
+        </div>
+        <div class="intro-text">
+            Bem-vindo ao Extreme Forms!
+            No Extreme Forms, levamos os formulários online ao extremo, mas sem complicações! Se você precisa de uma pesquisa rápida, um formulário de feedback ou uma maneira fácil de coletar informações, estamos aqui para ajudar. Com uma interface simples e direta, você pode criar formulários em poucos cliques, sem perder tempo com configurações complicadas.
+        </div>
+        <div class="button-group">
+            {% if user.is_authenticated %}
+            <button class="button" onclick="window.location.href='{% url 'ExtremeFormsApp:new_form' %}'">New form</button>
+            <button class="button" onclick="window.location.href='/form_result'">Form Result</button>
+            {% endif %}
+            <button class="button" onclick="window.location.href='{% url 'sec-home' %}'">Fazer Login</button>
+        </div>
     </div>
-    <div>
-        <button class="button" onclick="window.location.href='/new_form'">New form</button>
-        <button class="button" onclick="window.location.href='/form_result'">Form Result</button>
-    </div>
-    <li>
-        <a href="{% url 'sec-home' %}">
-            Página inicial de controle de acesso
-        </a>
-    </li>
 </body>
 </html>

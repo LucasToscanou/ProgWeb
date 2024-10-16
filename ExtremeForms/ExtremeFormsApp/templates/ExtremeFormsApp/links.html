@@ -1,3 +1,6 @@
-<a href="/" class="dev_nav-link">Home</a>
-<a href="/new_form" class="dev_nav-link">New Form</a>
-<a href="/form_result" class="dev_nav-link">Form Result</a>
+{% load static %}
+<nav class="dev_navbar">
+    <a href="/" class="dev_nav-link">Home</a>
+    <a href="{% url 'ExtremeFormsApp:new_form' %}" class="dev_nav-link">Novo Form</a>
+    <a href="{% url 'ExtremeFormsApp:form_result' %}" class="dev_nav-link">Resultado do Form</a>
+</nav>

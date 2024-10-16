@@ -1,0 +1,41 @@
+.multiple-choice {
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+}
+
+.options {
+    margin: 10px 0;
+}
+
+.options input {
+    display: block;
+    margin: 5px 0;
+    flex-grow: 1;
+}
+
+.add-option, .remove-question, .remove-option{
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+.add-option:hover, .remove-question:hover, .remove-option:hover {
+    background-color: #d0d0d0;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.option-index {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
