@@ -254,7 +254,33 @@
     background-color: #0056b3; /* Darker shade on hover */
 }
 
+.long-answer-input {
+    width: 100%; /* Make it full-width */
+    min-height: 100px; /* Set a minimum height for better visibility */
+    margin-bottom: 10px; /* Existing margin */
+    padding: 8px; /* Add some padding for better text spacing */
+    border: 1px solid #ccc; /* Optional: border for better visibility */
+    border-radius: 4px; /* Optional: rounded corners */
+}
 
-.long-answer-input, .answer-question-text .form-link-display{
-    margin-bottom: 10px;
+.delete-button {
+    background-color: #ff4d4d; /* Red background for delete */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background-color: #ccc; /* Grey background for cancel */
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.cancel-button:hover, .delete-button:hover {
+    opacity: 0.8;
 }

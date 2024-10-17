@@ -168,10 +168,11 @@ def edit_form_view(request, id):
     return render(request, 'ExtremeFormsApp/edit_form.html', {'form': questionList})
 
 @login_required
-def delete_form_view(request, id):
+def confirm_delete_form_view(request, id):
     questionList = get_object_or_404(QuestionList, id=id)
-    context = {'form': questionList}
-    return render(request, 'ExtremeFormsApp/delete_form.html', context)
+    questionList.delete()
+    # Redirect to a specific page after deletion, like the main forms list or home page
+    return redirect('ExtremeFormsApp:user_forms')  # Change 'form_list' to the appropriate URL name
 
 @login_required
 def form_result_view(request, id):
@@ -204,13 +205,14 @@ def form_result_view(request, id):
     context = {
         'form': question_list,
         'questions': questions,
-        'answers': Answer.objects.filter(question__question_list=question_list),  # Corrected line
+        'answers': Answer.objects.filter(question__question_list=question_list),  # Ensure this fetches correctly
         'option_counts': option_counts,  # Pass the simplified structure to the template
     }
 
-    print(option_counts)  # Add this to check the output of option_counts
+    print(option_counts)  # Debugging output to verify option counts
 
     return render(request, 'ExtremeFormsApp/form_result.html', context)
+
 
 
 class AnswerFormView(LoginRequiredMixin, View):

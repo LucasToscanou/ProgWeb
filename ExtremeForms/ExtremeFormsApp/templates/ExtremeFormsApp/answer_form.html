@@ -36,7 +36,8 @@
                 </ul>
                 {% elif question.question_type == 'long_answer' %}
                 <textarea name="long_answer_{{ question.id }}" placeholder="Sua resposta aqui..."
-                    class="long-answer-input"></textarea>
+          class="long-answer-input"></textarea>
+
                 {% endif %}
             </div>
             {% endfor %}

@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .  # This assumes your Dockerfile is in the same directory as the docker-compose.yml
+      dockerfile: Dockerfile  # Only if your Dockerfile is named something other than 'Dockerfile'
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1  # Example environment variable

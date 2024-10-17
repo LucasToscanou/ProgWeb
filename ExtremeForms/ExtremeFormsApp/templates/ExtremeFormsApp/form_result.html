@@ -19,19 +19,19 @@
         {% for question in questions %}
             <div class="question-block">
                 <strong class="question-title">{{ question.text }}</strong>
-                {% if question.type == 'multiple_choice' %}
+                {% if question.question_type == 'multiple_choice' %}
                     <ul class="option-list">
                         {% for count in option_counts %}
                             {% if count.question_id == question.id %}
                                 {% for option, qty in count.counts.items %}
                                     <li class="option-item">
-                                        <span class="option-letter">a.</span> {{ option }} <span class="option-qty">{{ qty }} resposta(s)</span>
+                                        <span class="option-letter">{{ forloop.counter }}.</span> {{ option }} <span class="option-qty">{{ qty }} resposta(s)</span>
                                     </li>
                                 {% endfor %}
                             {% endif %}
                         {% endfor %}
                     </ul>
-                {% elif question.type == 'long_answer' %}
+                {% elif question.question_type == 'long_answer' %}
                     <h3 class="long-answer-header">Respostas Longas:</h3>
                     <ul class="long-answer-list">
                         {% for answer in answers %}
