@@ -253,3 +253,8 @@
 .download-button:hover {
     background-color: #0056b3; /* Darker shade on hover */
 }
+
+
+.long-answer-input, .answer-question-text .form-link-display{
+    margin-bottom: 10px;
+}

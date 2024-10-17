@@ -14,44 +14,54 @@
 <body>
     <div class="content">
         {% include 'ExtremeFormsApp/links.html' %}
-        <h1>Form question_list.name</h1>
+        <h1>Form {{ question_list.name }}</h1>
 
-
-        <div class="toolbar">
-            <button class="toolbar_btn" id="add-multiple-choice">Adicionar Questão de Múltipla Escolha</button>
-            <button class="toolbar_btn" id="add-long-answer">Adicionar Questão de Resposta Longa</button>
-            <button class="toolbar_btn" id="submit-btn">Concluir</button>
-        </div>
-
-        {% if form_created %}
         <form method="POST">
             {% csrf_token %}
-            
-            {% for form, question_type in forms %}
+            <div class="toolbar">
+                <button type="submit" name="action" value="add-multiple-choice" class="toolbar_btn">Adicionar Questão de Múltipla Escolha</button>
+                <button type="submit" name="action" value="add-long-answer" class="toolbar_btn">Adicionar Questão de Resposta Longa</button>
+                <button type="submit" name="action" value="finish" class="toolbar_btn">Concluir</button>
+            </div>
+        </form>
+
+        <form method="POST">
+            {% csrf_token %}
+            {% for question, question_type, options in questions_with_options %}
             <div>
-                <h2>Questão {{ forloop.counter0 }}</h2>
+                <h2>Questão {{ forloop.counter }}</h2>
+
+                <input type="hidden" name="question_id" value="{{ question.id }}">
 
                 {% if question_type == 'title' %}
-                    {{ form.as_p }}
+                <input type="text" name="question_text" value="{{ question.text }}" placeholder="Título da pergunta" class="question-input">
                 {% elif question_type == 'multiple_choice' %}
-                    {{ form.as_p }}
-                    <div class="question multiple-choice">
-                        <button class="add-option">Adicionar Opção</button>
-                        <button class="remove-option">Remover Opção</button>
-                        <button class="remove-question">Remover Questão</button>
-                    </div>
+                <input type="text" name="question_text" value="{{ question.text }}" placeholder="Texto da pergunta" class="question-input">
+                <ul class="option-list">
+                    {% for label, option in options %}
+                    <li class="option-item">
+                        <span class="option-letter">{{ label }}.</span>
+                        <input type="text" name="option_text_{{ forloop.counter0 }}" value="{{ option }}" placeholder="Opção {{ label }}" class="option-input">
+                    </li>
+                    {% empty %}
+                    <li class="option-item">No options yet.</li>
+                    {% endfor %}
+                </ul>
+
+                <button type="submit" name="action" value="add-option" class="toolbar_btn">Adicionar Opção</button>
+                <button type="submit" name="action" value="remove-last-option" class="toolbar_btn">Remover Opção</button>
+                <button type="submit" name="action" value="remove-question" class="toolbar_btn">Remover Questão</button>
                 {% elif question_type == 'long_answer' %}
-                    {{ form.as_p }}
-                    <div class="question multiple-choice">
-                        <button class="remove-question">Remover Questão</button>
-                    </div>
+                <div class="long-answer-input">
+                    <input type="text" name="question_text" value="{{ question.text }}" placeholder="Texto da pergunta" class="question-input">
+                </div>
+                <button type="submit" name="action" value="remove-question" class="toolbar_btn">Remover Questão</button>
                 {% endif %}
+
+                <button type="submit" name="action" value="save" class="toolbar_btn">Salvar</button>
             </div>
             {% endfor %}
-
-            <button type="submit" name="action" value="save" class="toolbar_btn">Salvar</button>
         </form>
-        {% endif %}
     </div>
 </body>
 

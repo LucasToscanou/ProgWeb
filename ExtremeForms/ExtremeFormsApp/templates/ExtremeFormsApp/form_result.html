@@ -16,7 +16,6 @@
         <div class="form-detail">
             <h2>{{ form.name }}</h2>
         </div>
-        <a href="{% url 'ExtremeFormsApp:download_csv' form.id %}" class="download-button">Download CSV</a>
         {% for question in questions %}
             <div class="question-block">
                 <strong class="question-title">{{ question.text }}</strong>

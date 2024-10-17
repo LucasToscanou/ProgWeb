@@ -7,28 +7,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Answer Form</title>
-    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/new_form.css' %}">
+
     <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/general.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/new_form.css' %}">
 </head>
 
 <body>
     <div class="content">
         {% include 'ExtremeFormsApp/links.html' %}
-        <h1>New Form</h1>
+        <h1>Formulário: {{ question_list.name }}</h1>
 
         <form method="POST">
             {% csrf_token %}
-
-            {% for form, question_type in forms %}
-            <div>
-                <h2>Questão {{ forloop.counter0 }}</h2>
-                {{ form.as_p }}
+            {% for question in questions %}
+            <div class="question-block">
+                <h2>Questão {{ forloop.counter }}</h2>
+                <div class="answer-question-text">
+                    <strong>{{ question.text }}</strong>
+                </div>
+                {% if question.question_type == 'multiple_choice' %}
+                <ul class="option-list">
+                    {% for option in question.multiple_choice_options.options %}
+                    <li class="option-item">
+                        <input type="radio" name="multiple_choice_answer_{{ question.id }}" value="{{ option }}">
+                        {{ option }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% elif question.question_type == 'long_answer' %}
+                <textarea name="long_answer_{{ question.id }}" placeholder="Sua resposta aqui..."
+                    class="long-answer-input"></textarea>
+                {% endif %}
             </div>
             {% endfor %}
-
-            <button type="submit" name="action" value="save" class="toolbar_btn">Salvar Respostas</button>
+            <button type="submit" class="toolbar_btn">Enviar Respostas</button>
         </form>
-
     </div>
 </body>
 

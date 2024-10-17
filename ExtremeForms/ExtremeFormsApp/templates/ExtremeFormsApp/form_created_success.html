@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Created Success</title>
+
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/general.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/new_form.css' %}">
+</head>
+
+<body>
+    <div class="content">
+        {% include 'ExtremeFormsApp/links.html' %}
+        <h1>Formulário Criado com Sucesso!</h1>
+        <div class="form-detail">
+            <h2>{{ question_list.name }}</h2>
+            <p>{{ question_list.description }}</p>
+            <p>Link para o formulário:</p>
+            <div class="form-link-display">
+                <input type="text" id="formLink" value="{{ question_list.form_link }}" readonly>
+            </div>
+            <a href="{{ question_list.form_link }}" target="_blank">Testar o link</a>
+
+        </div>
+    </div>
+</body>
+
+</html>

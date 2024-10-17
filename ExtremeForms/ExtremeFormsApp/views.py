@@ -10,6 +10,7 @@ from django.views import View
 
 from .forms import count_multiple_choice_answers  # Uncomment if needed
 from ExtremeFormsApp.models import Answer, Question, QuestionList
+from django.urls import reverse
 
 
 # Create your views here.
@@ -28,99 +29,129 @@ class NewFormView(LoginRequiredMixin, View):
     def get(self, request):
         context = {
             'form_created': False,
-            'forms': QuestionList.objects.filter(user=request.user),  # Fetch existing forms for the logged-in user
+            'forms': QuestionList.objects.filter(user=request.user),
         }
         return render(request, self.template_name, context)
 
     def post(self, request):
-        form_created = False
-
         if request.POST.get('action') == 'create':
             form_name = request.POST.get('form_name')
             new_form = QuestionList.objects.create(name=form_name, user=request.user)
-            form_created = True
-            # Ensure to use the app name when redirecting
+            new_form.form_link = request.build_absolute_uri(reverse('ExtremeFormsApp:answer_form', args=[new_form.id]))
+            new_form.save()
+
             return redirect('ExtremeFormsApp:new_form_initiated', question_list_id=new_form.id)
 
-        elif request.POST.get('action') == 'save':
-            # Logic to save questions will be implemented here
-            pass
-
         context = {
-            'form_created': form_created,
             'forms': QuestionList.objects.filter(user=request.user),
         }
         return render(request, self.template_name, context)
 
 class NewFormInitiatedView(LoginRequiredMixin, View):
-    template_name = 'ExtremeFormsApp/new_form.html'
+    template_name = 'ExtremeFormsApp/new_form_initiated.html'
 
     def get(self, request, question_list_id):
         # Fetch the QuestionList or return a 404 if not found
         question_list = get_object_or_404(QuestionList, id=question_list_id)
 
-        # Get related questions, assuming a reverse relationship exists
-        questions = question_list.questions.all()  # Adjust according to your model relationships
+        # Retrieve related questions and include question type and labeled options
+        questions_with_options = []
+        for question in question_list.questions.all():
+            if question.question_type == 'multiple_choice':
+                # Access options from the dict pattern
+                options_dict = question.multiple_choice_options or {"options": []}
+                labeled_options = [(chr(97 + i), option) for i, option in enumerate(options_dict.get("options", []))]
+            else:
+                labeled_options = []  # No options for non-multiple choice questions
 
-        # Render the new form initiation page with the relevant context
+            questions_with_options.append((question, question.question_type, labeled_options))
+
+        # Prepare context with questions, types, and labeled options
         context = {
             'question_list': question_list,
-            'questions': questions,
-            # Include any other context needed for rendering
+            'questions_with_options': questions_with_options,
         }
         return render(request, self.template_name, context)
 
-
-class QuestionListView(LoginRequiredMixin, View):
-    def get(self, request, question_list_id):
-        question_lists = QuestionList.objects.all()
-
-        # Print each instance
-        # for question_list in question_lists:
-        #     print(f'ID: {question_list.id}, Name: {question_list.name}, User: {question_list.user}, Created At: {question_list.created_at}')
-        
-        
-        # questions = Question.objects.filter(questionList_id=question_list_id)
-        # forms = []
-        # for question in questions:
-        #     if question.question_type == 'multiple_choice':
-        #         form = MultipleChoiceQuestionForm()
-        #         forms.append((form, question))
-        #     elif question.question_type == 'long_answer':
-        #         form = LongAnswerQuestionForm()
-        #         forms.append((form, question))
-        # context = {'forms': forms, 'question_list_id': question_list_id}
-        context = {}
-        return render(request, 'ExtremeFormsApp/answer_form.html', context)
-
     def post(self, request, question_list_id):
-        # questions = Question.objects.filter(questionList_id=question_list_id)
-        # for question in questions:
-        #     if question.question_type == 'multiple_choice':
-        #         form = MultipleChoiceQuestionForm(request.POST, options=question.multiple_choice_options)
-        #         if form.is_valid():
-        #             multiple_choice_answer = request.POST.get(f'option_{form.cleaned_data["option"]}')  # Get the selected option
-        #             # Save the response for the multiple-choice question
-        #             Answer.objects.create(
-        #                 question=question,
-        #                 questionList_id=question_list_id,
-        #                 multiple_choice_answer=multiple_choice_answer
-        #             )
+        question_list = get_object_or_404(QuestionList, id=question_list_id)
 
-        #     elif question.question_type == 'long_answer':
-        #         form = LongAnswerQuestionForm(request.POST)
-        #         if form.is_valid():
-        #             long_answer_answer = form.cleaned_data['question_text']  # Get the answer text
-        #             # Save the response for the long answer question
-        #             Answer.objects.create(
-        #                 question=question,
-        #                 questionList_id=question_list_id,
-        #                 long_answer_answer=long_answer_answer
-        #             )
+        if request.POST.get('action') == 'add-multiple-choice':
+            new_question = Question.objects.create(
+                question_list=question_list,
+                question_type='multiple_choice',
+                text='',
+                multiple_choice_options={"options": []}  # Initialize as empty dict
+            )
 
-        return redirect('success_url')  # Redirect to a success page after saving answers
+        elif request.POST.get('action') == 'add-long-answer':
+            new_question = Question.objects.create(
+                question_list=question_list,
+                question_type='long_answer',
+                text='',
+            )
+
+        elif request.POST.get('action') == 'finish':
+            return redirect('ExtremeFormsApp:form_created_success', question_list_id=question_list.id)
+        
+        elif request.POST.get('action') == 'save':
+            question_id = request.POST.get('question_id')
+            question = get_object_or_404(Question, id=question_id)
+
+            # Save the question text
+            question.text = request.POST.get('question_text')
+            
+            # Save the options in the dict format
+            option_texts = []
+            for i in range(len(question.multiple_choice_options.get("options", []))):
+                option_text = request.POST.get(f'option_text_{i}')
+                if option_text:
+                    option_texts.append(option_text)
+
+            question.multiple_choice_options = {"options": option_texts}  # Store as dict
+            question.save()
+
+        elif request.POST.get('action') == 'add-option':
+            question_id = request.POST.get('question_id')
+            question = get_object_or_404(Question, id=question_id)
+            
+            # Retrieve existing options and append a new empty one
+            options = question.multiple_choice_options.get("options", [])
+            options.append('')  # Add an empty option for user to fill in
+            question.multiple_choice_options = {"options": options}
+            question.save()
+
+        elif request.POST.get('action') == 'remove-last-option':
+            question_id = request.POST.get('question_id')
+            question = get_object_or_404(Question, id=question_id)
+            
+            # Remove the last option
+            options = question.multiple_choice_options.get("options", [])
+            if options:  # Check if there are options to remove
+                options.pop()  # Remove the last option
+                
+                # Update multiple_choice_options after removing the option
+                question.multiple_choice_options = {"options": options}
+                question.save()
+
+        elif request.POST.get('action') == 'remove-question':
+            question_id = request.POST.get('question_id')
+            question = get_object_or_404(Question, id=question_id)
+            question.delete()  # Remove the question from the database
+
+        return redirect('ExtremeFormsApp:new_form_initiated', question_list_id=question_list.id)
+
+
+@login_required
+def form_created_success(request, question_list_id):
+    question_list = get_object_or_404(QuestionList, id=question_list_id)
     
-    
+    context = {
+        'question_list': question_list,
+    }
+    return render(request, 'ExtremeFormsApp/form_created_success.html', context)
+
+
 @login_required
 def form_detail_view(request, id):
     questionList = get_object_or_404(QuestionList, id=id)  # Fetch the form or return 404 if not found
@@ -144,15 +175,15 @@ def delete_form_view(request, id):
 
 @login_required
 def form_result_view(request, id):
-    questionList = get_object_or_404(QuestionList, id=id)
-    questions = questionList.questions.all()
+    question_list = get_object_or_404(QuestionList, id=id)
+    questions = question_list.questions.all()
 
     # Prepare option counts as a list of dictionaries for easier template access
     option_counts = []
 
     # Iterate over questions to collect data
     for question in questions:
-        if question.type == 'multiple_choice':
+        if question.question_type == 'multiple_choice':
             options = question.multiple_choice_options.get("options", [])
             question.options = [chr(65 + i) for i in range(len(options))]
 
@@ -171,15 +202,56 @@ def form_result_view(request, id):
             option_counts.append(counts)
 
     context = {
-        'form': questionList,
+        'form': question_list,
         'questions': questions,
-        'answers': Answer.objects.filter(question__questionList=questionList),
+        'answers': Answer.objects.filter(question__question_list=question_list),  # Corrected line
         'option_counts': option_counts,  # Pass the simplified structure to the template
     }
+
+    print(option_counts)  # Add this to check the output of option_counts
+
     return render(request, 'ExtremeFormsApp/form_result.html', context)
 
 
+class AnswerFormView(LoginRequiredMixin, View):
+    template_name = 'ExtremeFormsApp/answer_form.html'
 
+    def get(self, request, question_list_id):
+        question_list = get_object_or_404(QuestionList, id=question_list_id)
+        questions = question_list.questions.all()
+        
+        # Prepare the context with the questions
+        context = {
+            'question_list': question_list,
+            'questions': questions,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, question_list_id):
+        question_list = get_object_or_404(QuestionList, id=question_list_id)
+        
+        for question in question_list.questions.all():
+            if question.question_type == 'multiple_choice':
+                answer_text = request.POST.get(f'multiple_choice_answer_{question.id}')
+                Answer.objects.create(
+                    question=question,
+                    multiple_choice_answer=answer_text
+                )
+            elif question.question_type == 'long_answer':
+                answer_text = request.POST.get(f'long_answer_{question.id}')
+                Answer.objects.create(
+                    question=question,
+                    long_answer_answer=answer_text
+                )
+
+        # Redirect to a success page or back to the form list
+        return redirect('ExtremeFormsApp:form_answered_success', question_list_id=question_list.id)
+
+
+@login_required
+def form_answered_success(request, question_list_id):
+    question_list = get_object_or_404(QuestionList, id=question_list_id)
+    return render(request, 'ExtremeFormsApp/form_answered_success.html', {'question_list': question_list})
 
 class UserFormsView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):

@@ -16,7 +16,6 @@
         
         <div class="form-detail">
             <h2>{{ form.name }}</h2>
-            <p>Descrição: {{ form.description }}</p>
             
             <!-- Shareable Link if available -->
             {% if form.shareable_link %}
@@ -27,7 +26,7 @@
 
             <!-- Form-Level Edit, Delete, and Results Buttons -->
             <div class="form-actions">
-                <a href="{% url 'ExtremeFormsApp:edit_form' form.id %}" class="button edit-button">Editar Formulário</a>
+                <!-- <a href="{% url 'ExtremeFormsApp:edit_form' form.id %}" class="button edit-button">Editar Formulário</a> -->
                 <form action="{% url 'ExtremeFormsApp:delete_form' form.id %}" method="post" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" class="button delete-button">Excluir Formulário</button>
@@ -36,7 +35,7 @@
             </div>
 
             <!-- Questions in the Form -->
-            <ul>
+            <!-- <ul>
                 {% for question in questions %}
                     <li class="question-card">
                         <strong>{{ question.text }}</strong>
@@ -45,7 +44,7 @@
                 {% empty %}
                     <li>Nenhuma pergunta encontrada.</li>
                 {% endfor %}
-            </ul>
+            </ul> -->
         </div>
     </div>
 </body>

@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Answer Success</title>
+
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/general.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/new_form.css' %}">
+</head>
+<body>
+    <div class="content">
+        {% include 'ExtremeFormsApp/links.html' %}
+        <h1>Formulário {{ question_list.name }} respondido com Sucesso!</h1>
+    </div>
+</body>
+</html>
