@@ -29,3 +29,227 @@
 #questions {
     margin-top: 10px;
 }
+
+
+/* Used on the user_forms page */
+
+.form-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.form-card {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px; /* Add spacing between items */
+    width: 100%; /* Full width of the content container */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.form-card a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    display: block; /* Make the entire card clickable */
+    text-align: center;
+}
+
+.form-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.form-card:hover a {
+    color: #9b1414;
+}
+
+/* Add to general.css or new_form.css */
+.form-detail {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.form-detail h2 {
+    color: #9b1414;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.form-detail p {
+    color: #333;
+}
+
+.form-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.button {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.edit-button {
+    background-color: #4CAF50;
+    margin-right: 10px;
+}
+
+.delete-button {
+    background-color: #f44336;
+    border: none;
+    cursor: pointer;
+}
+
+.button:hover, .delete-button:hover {
+    opacity: 0.8;
+}
+
+
+.confirmation-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px;
+    margin: 0 10px;
+    transition: background-color 0.3s;
+}
+
+.delete-button {
+    background-color: #f44336;
+    border: none;
+}
+
+.cancel-button {
+    background-color: #757575;
+    text-decoration: none;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+.form-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.form-list li:last-child {
+    border-bottom: none; /* Remove bottom border for the last item */
+}
+
+.results-button {
+    background-color: #28a745;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.results-button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+
+.question-block {
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+    width: 100%;
+    margin-top: 20px;
+    box-sizing: border-box; /* Ensures padding doesn't add to the element's width */
+}
+
+
+
+.question-title {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.option-list {
+    list-style: none;
+    padding: 0;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.option-item:last-child {
+    border-bottom: none; /* Remove bottom border for the last item */
+}
+
+.option-letter {
+    font-weight: bold;
+    margin-right: 10px;
+    color: #9b1414;
+}
+
+.option-qty {
+    margin-left: auto;
+    font-weight: bold;
+    color: #333;
+}
+
+.long-answer-header {
+    color: #9b1414;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.long-answer-list {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.long-answer-item {
+    padding: 10px 0;
+    color: #333;
+}
+
+.download-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #007bff; /* Bootstrap primary color */
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.download-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}

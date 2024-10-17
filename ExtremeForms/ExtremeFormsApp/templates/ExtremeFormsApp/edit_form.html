@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Form</title>
+    <title>Edit Form</title>
     <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/new_form.css' %}">
     <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/general.css' %}">
 </head>
@@ -14,29 +14,13 @@
 <body>
     <div class="content">
         {% include 'ExtremeFormsApp/links.html' %}
+        <h1>Edit Form</h1>
 
-        {% if form_created %}
-        <h1>form.name</h1>
         <div class="toolbar">
             <button class="toolbar_btn" id="add-multiple-choice">Adicionar Questão de Múltipla Escolha</button>
             <button class="toolbar_btn" id="add-long-answer">Adicionar Questão de Resposta Longa</button>
             <button class="toolbar_btn" id="submit-btn">Concluir</button>
         </div>
-        {% else %}
-        <h1>New Form</h1>
-
-        <form method="POST">
-            {% csrf_token %}
-            <div>
-                <label for="form-name">Nome do Formulário:</label>
-                <input type="text" name="form_name" id="form-name" required>
-                <button type="submit" name="action" value="create" class="toolbar_btn">Criar Formulário</button>
-            </div>
-        </form>
-        {% endif %}
-
-
-        {% if form_created %}
         <form method="POST">
             {% csrf_token %}
             
@@ -64,7 +48,7 @@
 
             <button type="submit" name="action" value="save" class="toolbar_btn">Salvar</button>
         </form>
-        {% endif %}
+
     </div>
 </body>
 

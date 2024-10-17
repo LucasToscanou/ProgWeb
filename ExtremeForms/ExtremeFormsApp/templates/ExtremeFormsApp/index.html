@@ -23,10 +23,11 @@
         </div>
         <div class="button-group">
             {% if user.is_authenticated %}
-            <button class="button" onclick="window.location.href='{% url 'ExtremeFormsApp:new_form' %}'">New form</button>
-            <button class="button" onclick="window.location.href='/form_result'">Form Result</button>
+            <button class="button" onclick="window.location.href='{% url 'ExtremeFormsApp:new_form' %}'">Novo Form</button>
+            <button class="button" onclick="window.location.href='{% url 'ExtremeFormsApp:user_forms' %}'">Meus Forms</button>
+            {% else %}
+            <button class="button" onclick="window.location.href='{% url 'sec-login' %}'">Fazer Login</button>
             {% endif %}
-            <button class="button" onclick="window.location.href='{% url 'sec-home' %}'">Fazer Login</button>
         </div>
     </div>
 </body>

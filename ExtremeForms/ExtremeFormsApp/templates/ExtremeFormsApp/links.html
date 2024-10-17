@@ -2,5 +2,12 @@
 <nav class="dev_navbar">
     <a href="/" class="dev_nav-link">Home</a>
     <a href="{% url 'ExtremeFormsApp:new_form' %}" class="dev_nav-link">Novo Form</a>
-    <a href="{% url 'ExtremeFormsApp:form_result' %}" class="dev_nav-link">Resultado do Form</a>
+    <a href="{% url 'ExtremeFormsApp:user_forms' %}" class="dev_nav-link">Meus Forms</a>
+    <a href="{% url 'sec-login' %}" class="dev_nav-link user-info" title="Ir para o login">
+        {% if user.is_authenticated %}
+            Usuário: {{ user.username }}
+        {% else %}
+            Visitante
+        {% endif %}
+    </a>
 </nav>

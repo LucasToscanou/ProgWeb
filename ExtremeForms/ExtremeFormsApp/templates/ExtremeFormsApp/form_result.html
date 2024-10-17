@@ -4,10 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Result</title>
+    <title>Form Results</title>
+
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/general.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/new_form.css' %}">
 </head>
 <body>
-    {% include 'ExtremeFormsApp/links.html' %}
-    <h1>Forms Result</h1>
+    <div class="content">
+        {% include 'ExtremeFormsApp/links.html' %}
+        <h1>Resultados do Formulário</h1>
+        <div class="form-detail">
+            <h2>{{ form.name }}</h2>
+        </div>
+        <a href="{% url 'ExtremeFormsApp:download_csv' form.id %}" class="download-button">Download CSV</a>
+        {% for question in questions %}
+            <div class="question-block">
+                <strong class="question-title">{{ question.text }}</strong>
+                {% if question.type == 'multiple_choice' %}
+                    <ul class="option-list">
+                        {% for count in option_counts %}
+                            {% if count.question_id == question.id %}
+                                {% for option, qty in count.counts.items %}
+                                    <li class="option-item">
+                                        <span class="option-letter">a.</span> {{ option }} <span class="option-qty">{{ qty }} resposta(s)</span>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% elif question.type == 'long_answer' %}
+                    <h3 class="long-answer-header">Respostas Longas:</h3>
+                    <ul class="long-answer-list">
+                        {% for answer in answers %}
+                            {% if answer.question.id == question.id %}
+                                <li class="long-answer-item">{{ answer.long_answer_answer }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>

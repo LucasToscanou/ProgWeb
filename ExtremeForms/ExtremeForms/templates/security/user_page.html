@@ -1,0 +1,13 @@
+{% extends 'security/base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<h2>Página do Usuário</h2>
+
+<div class="user-actions">
+    <button onclick="location.href='{% url 'sec-logout' %}'" class="dev_nav-button">Logout</button>
+    <button onclick="location.href='{% url 'sec-password_change' %}'" class="dev_nav-button">Trocar senha</button>
+    <button onclick="location.href='{% url 'sec-completaDadosUsuario' pk=user.id %}'" class="dev_nav-button">Terminar registro</button>
+    <button onclick="location.href='{% url 'ExtremeFormsApp:user_forms' %}'" class="dev_nav-button">Meus Forms</button>
+</div>
+
+{% endblock %}

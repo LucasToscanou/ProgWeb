@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Details</title>
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/new_form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/general.css' %}">
+</head>
+<body>
+    <div class="content">
+        {% include 'ExtremeFormsApp/links.html' %}
+        
+        <h1>Detalhes do Formulário</h1>
+        
+        <div class="form-detail">
+            <h2>{{ form.name }}</h2>
+            <p>Descrição: {{ form.description }}</p>
+            
+            <!-- Shareable Link if available -->
+            {% if form.shareable_link %}
+                <p>Link para Compartilhar: 
+                    <a href="{{ form.shareable_link }}" target="_blank">{{ form.shareable_link }}</a>
+                </p>
+            {% endif %}
+
+            <!-- Form-Level Edit, Delete, and Results Buttons -->
+            <div class="form-actions">
+                <a href="{% url 'ExtremeFormsApp:edit_form' form.id %}" class="button edit-button">Editar Formulário</a>
+                <form action="{% url 'ExtremeFormsApp:delete_form' form.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="button delete-button">Excluir Formulário</button>
+                </form>
+                <a href="{% url 'ExtremeFormsApp:form_result' form.id %}" class="button results-button">Ver Resultados</a>
+            </div>
+
+            <!-- Questions in the Form -->
+            <ul>
+                {% for question in questions %}
+                    <li class="question-card">
+                        <strong>{{ question.text }}</strong>
+                        <p>Resposta: {{ question.answer }}</p>
+                    </li>
+                {% empty %}
+                    <li>Nenhuma pergunta encontrada.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

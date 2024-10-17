@@ -9,25 +9,23 @@
 </head>
 <body>
     <div class="content">
-        <h1>Site Seguro</h1>
-        
         <div class="dev_navbar">
-            <a href="{% url 'ExtremeFormsApp:index' %}" class="dev_nav-link">Go to Index</a>
-            <a href="{% url 'sec-home' %}" class="dev_nav-link">Página inicial de segurança</a>
+            <a href="{% url 'ExtremeFormsApp:index' %}" class="dev_nav-link">HomePage</a>
 
             {% if user.is_authenticated %}
-                <a href="{% url 'sec-logout' %}" class="dev_nav-link">Logout</a>
-                <a href="{% url 'sec-password_change' %}" class="dev_nav-link">Trocar senha</a>
-                <a href="{% url 'sec-completaDadosUsuario' pk=user.id %}" class="dev_nav-link">Terminar registro</a>
+                <a href="{% url 'sec-user_page' %}" class="dev_nav-link">Página do Usuário</a>
             {% else %}
                 <a href="{% url 'register' %}" class="dev_nav-link">Registrar</a>
-                <a href="{% url 'sec-login' %}?next={% url 'sec-secretPage' %}" class="dev_nav-link">Login</a>
             {% endif %}
-        </div>
 
-        <p>Você é {% firstof user.username "visitante" %}</p>
-        <hr>
-        
+            <a href="{% url 'sec-login' %}" class="dev_nav-link user-info" title="Ir para o login">
+                {% if user.is_authenticated %}
+                    Usuário: {{ user.username }}
+                {% else %}
+                    Visitante
+                {% endif %}
+            </a>
+        </div>
         {% block content %}{% endblock %}
     </div>
 </body>

@@ -18,12 +18,10 @@ from django.contrib.auth.views import PasswordResetCompleteView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('security/', views.homeSec , name='sec-home'),
+    path('security/', LoginView.as_view(template_name='security/login.html') , name='sec-login'),
     path('security/register/', views.register , name='register'),
-    path('security/login/', LoginView.as_view(template_name='security/login.html') , name='sec-login'),
-    path('security/profile/', views.secretPage , name='sec-secretPage'),
     path('security/logout/', views.logout , name='sec-logout'),
-    path('logout/', LogoutView.as_view(next_page = reverse_lazy('sec-home')) , name='logout'),
+    path('logout/', LogoutView.as_view(next_page = reverse_lazy('sec-login')) , name='logout'),
     path('security/password_change/',
         PasswordChangeView.as_view(
         template_name='security/password_change_form.html', 
@@ -40,7 +38,7 @@ urlpatterns = [
     path('security/terminaRegistro/<int:pk>/', 
         MeuUpdateView.as_view(
         template_name='security/user_form.html',
-        success_url=reverse_lazy('sec-home'),
+        success_url=reverse_lazy('sec-login'),
         model=User,
         fields=[
         'first_name',
@@ -72,6 +70,7 @@ urlpatterns = [
         template_name='security/password_reset_complete.html'
         ), name='sec-password_reset_complete'
     ),
+    path('security/user_page', views.userPage, name='sec-user_page'),
     
     path('', include('ExtremeFormsApp.urls')),
 ]

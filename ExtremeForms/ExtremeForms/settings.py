@@ -124,9 +124,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "/static"),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "/static"),
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -136,6 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # URLs for login and logout
 LOGIN_URL = 'sec-login'
 LOGOUT_URL = 'home'
+LOGIN_REDIRECT_URL = '/'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

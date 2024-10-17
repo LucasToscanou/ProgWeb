@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Form Deletion</title>
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/new_form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ExtremeFormsApp/general.css' %}">
+</head>
+<body>
+    <div class="content">
+        {% include 'ExtremeFormsApp/links.html' %}
+        
+        <h1>Deletar Formulário?</h1>
+        
+        <div class="form-detail">
+            <h2>{{ form.name }}</h2>
+            <p>Descrição: {{ form.description }}</p>
+            
+            <!-- Shareable Link if available -->
+            {% if form.shareable_link %}
+                <p>Link para Compartilhar: 
+                    <a href="{{ form.shareable_link }}" target="_blank">{{ form.shareable_link }}</a>
+                </p>
+            {% endif %}
+            
+            <p>Tem certeza de que deseja excluir este formulário? Esta ação não pode ser desfeita.</p>
+            
+            <!-- Confirmation Form -->
+            <form action="{% url 'ExtremeFormsApp:delete_form' form.id %}" method="post" class="confirmation-actions">
+                {% csrf_token %}
+                <button type="submit" class="button delete-button">Confirmar Exclusão</button>
+                <a href="{% url 'ExtremeFormsApp:form_details' form.id%}" class="button cancel-button">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
